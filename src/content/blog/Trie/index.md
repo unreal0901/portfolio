@@ -56,9 +56,7 @@ class Trie {
       if (!node.children[char]) {
         node.children[char] = new TrieNode();
       }
-      node = node;
-
-      children[char];
+      node = node.children[char];
     }
     node.isEndOfWord = true;
   }
