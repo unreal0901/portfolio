@@ -7,6 +7,7 @@ import ArrowCard from "@components/ArrowCard.astro";
 import Link from "@components/Link.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import Resume from "/LATEST_ADITYA_CV.pdf";
 
 const blog = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -60,7 +61,7 @@ const work = await Promise.all(
             </p>
           </span>
         </article>
-        <a href="/public/LATEST_ADITYA_CV.pdf" download="Aditya_Singh_Rawat_Resume.pdf">
+        <a href={Resume} download="Aditya_Singh_Rawat_Resume.pdf">
           <button  
           id="dark-theme-button"
           aria-label="Dark theme"
