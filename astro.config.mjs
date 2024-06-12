@@ -8,7 +8,7 @@ import pagefind from "astro-pagefind";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astro-micro.vercel.app",
+  site: "https://www.adityasr.tech",
   integrations: [tailwind(), sitemap(), mdx(), pagefind()],
   output: "hybrid",
   adapter: vercelServerless({
