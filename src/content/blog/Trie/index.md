@@ -2,10 +2,15 @@
 title: "Trie in TypeScript"
 description: "What, why, and how to implement a Trie in TypeScript"
 date: "2024-05-09"
----
-
-import Callout from "@/components/Callout.astro";
-
+tags:
+  - typescript
+  - data-structures
+  - algorithms
+  - trie
+  - prefix-tree
+  - autocomplete
+  - search
+  - string-matching
 ---
 
 ## Introduction to Trie
