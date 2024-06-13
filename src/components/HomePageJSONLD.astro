@@ -25,7 +25,7 @@ const schema = {
         "@type": "BlogPosting",
         "name": "Latest posts",
         "url": "https://adityasinghrawat.com/blog",
-        "itemListElement": blogs.map((blog: any) => ({
+        "about": blogs.map((blog: any) => ({
           "@type": "BlogPosting",
           "name": blog.data.title,
           "url": `https://adityasinghrawat.com/blog/${blog.slug}`,
@@ -60,7 +60,7 @@ const schema = {
           "description": project.data.description,
           "datePublished": project.data.date.toISOString(),
           "codeRepository": project.data.repoURL,
-          "deploymentURL": project.data.demoURL
+          "liveURL": project.data.demoURL
         }))
       }
     ]
