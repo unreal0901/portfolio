@@ -8,6 +8,7 @@ import Link from "@components/Link.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Resume from "/LATEST_ADITYA_CV.pdf";
+import HomePageJSONLD from "@components/HomePageJSONLD.astro";
 
 const blog = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -37,6 +38,7 @@ const work = await Promise.all(
 ---
 
 <Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <HomePageJSONLD slot="head" blogs={blog} works={work} projects={projects} />
   <Container>
     <h1 class="animate font-semibold text-black dark:text-white">
     Hello Aditya here 😊,

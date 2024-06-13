@@ -1,0 +1,76 @@
+---
+// Destructure the props
+const { blogs, works, projects } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://adityasinghrawat.com/",
+  "name": "Aditya Singh Rawat",
+  "description": "Personal website and portfolio of Aditya Singh Rawat, a full-stack developer from New Delhi, India.",
+  "author": {
+    "@type": "Person",
+    "name": "Aditya Singh Rawat"
+  },
+  "inLanguage": "en-US",
+  "potentialAction": {
+    "@type": "DownloadAction",
+    "name": "Download Resume",
+    "url": "https://adityasinghrawat.com/LATEST_ADITYA_CV.pdf"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "BlogPosting",
+        "name": "Latest posts",
+        "url": "https://adityasinghrawat.com/blog",
+        "itemListElement": blogs.map((blog: any) => ({
+          "@type": "BlogPosting",
+          "name": blog.data.title,
+          "url": `https://adityasinghrawat.com/blog/${blog.slug}`,
+          "description": blog.data.description,
+          "datePublished": blog.data.date.toISOString(),
+          "keywords": blog.data.tags
+        }))
+      },
+      {
+        "@type": "ItemList",
+        "name": "Work Experience",
+        "url": "https://adityasinghrawat.com/work",
+        "itemListElement": works.map((work: any) => ({
+          "@type": "JobPosting",
+          "title": work.data.role,
+          "hiringOrganization": {
+            "@type": "Organization",
+            "name": work.data.company
+          },
+          "datePosted": work.data.dateStart.toISOString(),
+          "validThrough": typeof work.data.dateEnd === 'string' ? work.data.dateEnd : new Date(work.data.dateEnd).toISOString()
+        }))
+      },
+      {
+        "@type": "ItemList",
+        "name": "Recent projects",
+        "url": "https://adityasinghrawat.com/projects",
+        "itemListElement": projects.map((project: any) => ({
+          "@type": "SoftwareSourceCode",
+          "name": project.data.title,
+          "url": `https://adityasinghrawat.com/projects/${project.slug}`,
+          "description": project.data.description,
+          "datePublished": project.data.date.toISOString(),
+          "codeRepository": project.data.repoURL,
+          "deploymentURL": project.data.demoURL
+        }))
+      }
+    ]
+  },
+  "sameAs": [
+    "https://github.com/adityasinghrawat",
+    "https://linkedin.com/in/adityasinghrawat",
+    "mailto:adityarawat311@gmail.com"
+  ]
+}
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
