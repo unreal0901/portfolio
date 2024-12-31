@@ -9,6 +9,9 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Resume from "/LATEST_ADITYA_CV.pdf";
 import HomePageJSONLD from "@components/HomePageJSONLD.astro";
+import { getIcon } from "@components/Icons.astro";
+import type { SkillName } from "@components/Icons.astro";
+import SwiperSlider from "@components/SwiperSlider";
 
 const blog = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -22,10 +25,13 @@ const projects: CollectionEntry<"projects">[] = (
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
 
-
 const allwork = (await getCollection("work"))
-  .sort((a, b) => new Date(b.data.dateStart).valueOf() - new Date(a.data.dateStart).valueOf())
-  .slice(0,SITE.NUM_WORKS_ON_HOMEPAGE);
+  .sort(
+    (a, b) =>
+      new Date(b.data.dateStart).valueOf() -
+      new Date(a.data.dateStart).valueOf()
+  )
+  .slice(0, SITE.NUM_WORKS_ON_HOMEPAGE);
 
 const work = await Promise.all(
   allwork.map(async (item) => {
@@ -34,44 +40,67 @@ const work = await Promise.all(
   })
 );
 
-
+const skills: { name: SkillName; label: string }[] = [
+  { name: "nestjs", label: "NestJS" },
+  { name: "nodejs", label: "Node.js" },
+  { name: "postgresql", label: "PostgreSQL" },
+  { name: "expressjs", label: "ExpressJS" },
+  { name: "mysql", label: "MySQL" },
+  { name: "mongodb", label: "MongoDB" },
+  { name: "react", label: "React.js" },
+  { name: "nextjs", label: "Next.js" },
+  { name: "redux", label: "Redux" },
+  { name: "mui", label: "Material-UI" },
+  { name: "aws", label: "AWS" },
+  { name: "docker", label: "Docker" },
+];
 ---
 
 <Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <HomePageJSONLD slot="head" blogs={blog} works={work} projects={projects} />
   <Container>
     <h1 class="animate font-semibold text-black dark:text-white">
-    Hello Aditya here 😊,
+      Hello Aditya here 😊,
     </h1>
     <div class="space-y-16">
       <section>
-        <article class="space-y-4">
+        <article class="space-y-2">
           <span class="animate">
             <p>
-              Welcome! My name is Aditya Singh Rawat, and I am a passionate full-stack developer from New Delhi, India. This website serves as a showcase of my skills, experience, and projects.
-            </p>
-            <p>
-              I am currently pursuing a Bachelor's degree in Computer Applications from Maharaja Surajmal Institute, Janakpuri, Delhi, and have a strong foundation in programming languages like TypeScript, Java, C/C++, and data structures and algorithms.
-            </p>
-          </span>
-          <span class="animate">
-            <p>
-              With experience in web development technologies such as HTML, CSS, JavaScript, MongoDB, Node.js, Express.js, React.js, and more, I have worked on various projects, including a digital visiting card generator, a library management system, and an anonymous forum application.
-            </p>
-            <p>
-              Feel free to explore my portfolio, check out my projects, and get in touch with me for potential collaborations or opportunities. You can find my contact information and links to my GitHub and LinkedIn profiles below.
+            I am a passionate full-stack developer with 1.5 years of experience in backend technologies, particularly in Node.js, and a strong foundation in databases, cloud technologies, and React-based frontend development. Graduated with Bachelor's degree in Computer Applications from Maharaja Surajmal Institute, I am seeking new opportunities to work in collaborative environments and learn advanced backend technologies.
             </p>
           </span>
         </article>
         <a href={Resume} download="Aditya_Singh_Rawat_Resume.pdf">
-          <button  
-          id="dark-theme-button"
-          aria-label="Dark theme"
-          class="cursor-pointer inline-flex gap-1 items-center justify-center rounded border border-black/15 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5 px-2 py-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M222 144v64a6 6 0 0 1-6 6H40a6 6 0 0 1-6-6v-64a6 6 0 0 1 12 0v58h164v-58a6 6 0 0 1 12 0m-98.24 4.24a6 6 0 0 0 8.48 0l40-40a6 6 0 0 0-8.48-8.48L134 129.51V32a6 6 0 0 0-12 0v97.51L92.24 99.76a6 6 0 0 0-8.48 8.48Z"/></svg>
-          <span>Resume</span>
-        </button>
+          <button
+            id="dark-theme-button"
+            aria-label="Dark theme"
+            class="inline-flex cursor-pointer items-center justify-center gap-1 rounded border border-black/15 px-2 py-1 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 256 256"
+              ><path
+                fill="currentColor"
+                d="M222 144v64a6 6 0 0 1-6 6H40a6 6 0 0 1-6-6v-64a6 6 0 0 1 12 0v58h164v-58a6 6 0 0 1 12 0m-98.24 4.24a6 6 0 0 0 8.48 0l40-40a6 6 0 0 0-8.48-8.48L134 129.51V32a6 6 0 0 0-12 0v97.51L92.24 99.76a6 6 0 0 0-8.48 8.48Z"
+              ></path></svg
+            >
+            <span>Resume</span>
+          </button>
         </a>
+      </section>
+
+      <section class="skills-section py-2">
+        <h2
+          class="text-center text-2xl font-semibold text-black dark:text-white"
+        >
+        🪛 My Stack
+        <div class="skills-slider relative mt-4">
+          <!-- Scrollable Slider -->
+          <SwiperSlider client:only skills={skills} />
+        </div>
       </section>
 
       <section class="animate space-y-6">
@@ -90,33 +119,30 @@ const work = await Promise.all(
         </ul>
       </section>
 
-
       <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
+        <div class="flex flex-wrap items-center justify-between gap-y-2">
           <h5 class="font-semibold text-black dark:text-white">
             Work Experience
           </h5>
-          <Link href="/work">
-            See all work
-          </Link>
+          <Link href="/work"> See all work </Link>
         </div>
         <ul class="flex flex-col space-y-4">
-          {work.map(entry => (
-            <li>
-              <div class="text-sm opacity-75">
-                {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-              </div>
-              <div class="font-semibold text-black dark:text-white">
-                {entry.data.company}
-              </div>
-              <div class="text-sm opacity-75">
-                {entry.data.role}
-              </div>
-              <article>
-                <entry.Content />
-              </article>
-            </li>
-          ))}
+          {
+            work.map((entry) => (
+              <li>
+                <div class="text-sm opacity-75">
+                  {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+                </div>
+                <div class="font-semibold text-black dark:text-white">
+                  {entry.data.company}
+                </div>
+                <div class="text-sm opacity-75">{entry.data.role}</div>
+                <article>
+                  <entry.Content />
+                </article>
+              </li>
+            ))
+          }
         </ul>
       </section>
 
@@ -172,5 +198,71 @@ const work = await Promise.all(
         </ul>
       </section>
     </div>
+    <div
+      class="fixed bottom-5 right-5 z-50 flex flex-wrap items-center gap-2 rounded-full bg-white p-3 shadow-lg"
+    >
+      <button
+        id="theme-toggle"
+        class="rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-gray-100"
+      >
+        <!-- Moon Icon -->
+        <svg
+          class="icon-moon block text-gray-900 dark:hidden"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+        <!-- Sun Icon -->
+        <svg
+          class="icon-sun block text-yellow-500 dark:hidden"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="m4.93 4.93 1.41 1.41"></path>
+          <path d="m17.66 17.66 1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="m6.34 17.66-1.41 1.41"></path>
+          <path d="m19.07 4.93-1.41 1.41"></path>
+        </svg>
+      </button>
+    </div>
   </Container>
 </Layout>
+<style is:global>
+  .icon-sun {
+    display: block;
+  }
+  .icon-moon {
+    display: none;
+  }
+  .dark .icon-sun {
+    display: none;
+  }
+  .dark .icon-moon {
+    display: block;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+</style>
